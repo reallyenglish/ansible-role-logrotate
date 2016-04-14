@@ -7,11 +7,13 @@ end
 
 logrotate_d = '/etc/logrotate.d'
 logrotate_conf = '/etc/logrotate.conf'
+logrotate_bin = '/usr/sbin/logrotate'
 
 case os[:family]
 when 'freebsd'
   logrotate_d = '/usr/local/etc/logrotate.d'
   logrotate_conf = '/usr/local/etc/logrotate.conf'
+  logrotate_bin = '/usr/local/sbin/logrotate'
 end
 
 describe file(logrotate_d) do
@@ -26,4 +28,8 @@ describe file(logrotate_conf) do
   its(:content) { should match /^daily$/ }
   its(:content) { should match /^dateext/ }
   its(:content) { should match /include #{Regexp.quote(logrotate_d)}/ }
+end
+
+describe command("#{logrotate_bin} #{logrotate_conf}") do
+  its(:exit_status) { should eq 0 }
 end
