@@ -52,7 +52,7 @@ options:
     required: false
     choices: [ "daily", "weekly", "yearly" ]
     default: "daily
-  count:
+  rotate:
     description:
       - number of times before being removed
     required: false
@@ -109,7 +109,7 @@ author: "Tomoyuki Sakurai <tomoyukis@reallyenglish.com>"
 
 EXAMPLES = '''
 # lotate /var/log/messages and maillog daily, keep 30 files and restart syslog only once
-- logrotate: frequency="daily", rotate_count="30", files=[ "/var/log/messages", "/bar/log/maillog" ] postrotate="kill -HUP `cat /var/run/syslog.pid`" sharedscripts=yes
+- logrotate: frequency="daily", rotate="30", files=[ "/var/log/messages", "/bar/log/maillog" ] postrotate="kill -HUP `cat /var/run/syslog.pid`" sharedscripts=yes
 '''
 
 def validate_config(module):
@@ -149,8 +149,8 @@ def generate_config(module):
     if module.params.get('notifempty'):
         options += [ 'notifempty' ]
 
-    options += [ 'rotate %s' % module.params.get('frequency') ]
-    options += [ 'count %s' % module.params.get('count') ]
+    options += [ '%s' % module.params.get('frequency') ]
+    options += [ 'rotate %s' % module.params.get('rotate') ]
 
     if module.params.get('postrotate'):
         if module.params.get('sharedscripts'):
@@ -204,7 +204,7 @@ def main():
         files           = dict(required=True, type='list'),
         state           = dict(required=True, choices=['present', 'absent']),
         frequency       = dict(required=False, default='daily', choices=['daily', 'weekly', 'yearly']),
-        count           = dict(required=False, default=30, type='int'),
+        rotate          = dict(required=False, default=30, type='int'),
         compress        = dict(required=False, default='yes', type='bool'),
         delaycompress   = dict(required=False, default='yes', type='bool'),
         missingok       = dict(required=False, default='yes', type='bool'),
