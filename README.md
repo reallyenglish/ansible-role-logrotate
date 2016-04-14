@@ -16,6 +16,21 @@ Role Variables
 | logrotate\_config  | path to logrotate.conf | see vars |
 | logrotate\_conf\_d | path to logrotate.d    | see vars |
 
+logrotate module
+----------------
+
+`files/logrotate.py` enables to create a task like this.
+
+    - name: Rotate logstash.log
+      logrotate:
+        name: logstash
+        files:
+          - /var/log/logstash.log
+        state: present
+        config_dir: /usr/local/etc/logrotate.d
+
+copy the file to `$PROJECT\_ROOT/library/`.
+
 Dependencies
 ------------
 
