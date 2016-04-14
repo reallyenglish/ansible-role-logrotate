@@ -1,0 +1,10 @@
+create
+compress
+delaycompress
+rotate {{ logrotate_default_rotate }}
+{{ logrotate_default_freq }}
+{% if logrotate_default_dateext == "true" -%}
+dateext 
+{% endif -%}
+dateformat .%Y%m%d
+include {{ logrotate_conf_d }}

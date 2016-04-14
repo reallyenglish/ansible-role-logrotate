@@ -1,0 +1,29 @@
+---
+# tasks file for ansible-role-logrotate
+
+- include_vars: FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
+- include: install-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
+
+- name: Create logrotate.conf
+  template:
+    src: logrotate.conf.j2
+    dest: "{{ logrotate_config }}"
+  when: ansible_os_family == 'FreeBSD'
+
+- name: Create PATH that includes /usr/local
+  cron:
+    name: PATH
+    env: yes
+    value: "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+  when: (ansible_os_family == 'FreeBSD') and (0 == 1) # disabled for now; env: yes was implemented in ansible 2.1
+
+- name: Create a cron entry logrotate
+  cron:
+    name: logrotate
+    minute: 0
+    job: "/usr/bin/env PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin logrotate {{ logrotate_config }} >/dev/null"
+  when: ansible_os_family == 'FreeBSD'

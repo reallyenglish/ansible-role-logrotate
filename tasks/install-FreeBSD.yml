@@ -1,0 +1,7 @@
+---
+
+- name: Ensure logrotate is installed
+  pkgng: name=logrotate state=present
+
+- name: Create logrotate.d
+  file: path={{ logrotate_conf_d }} mode=0755 state=directory

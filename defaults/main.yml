@@ -1,0 +1,10 @@
+---
+# defaults file for ansible-role-logrotate
+
+logrotate_config: "{{ __logrotate_config }}"
+logrotate_conf_d: "{{ __logrotate_conf_d }}"
+
+logrotate_default_rotate: 30
+logrotate_default_dateext: "true"
+logrotate_default_dateformat: ".%Y%m%d"
+logrotate_default_freq: "daily"
