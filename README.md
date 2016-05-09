@@ -19,14 +19,7 @@ Role Variables
 logrotate module
 ----------------
 
-Enable the module.
-
-    > cd $YOUR_PROJECT
-    > mkdir library action_plugins
-    > ln -s roles.galaxy/reallyenglish.logrotate/library/logrotate.py library/logrotate.py
-    > ln -s roles.galaxy/reallyenglish.logrotate/action_plugins/logrotate.py action_plugins/logrotate.py
-
-`files/logrotate.py` enables to create a task like this.
+`action_plugins/logrotate.py` enables to create a task like this.
 
     - name: Rotate logstash.log
       logrotate:
