@@ -19,6 +19,13 @@ Role Variables
 logrotate module
 ----------------
 
+Enable the module.
+
+    > cd $YOUR_PROJECT
+    > mkdir library action_plugins
+    > ln -s roles.galaxy/reallyenglish.logrotate/library/logrotate.py library/logrotate.py
+    > ln -s roles.galaxy/reallyenglish.logrotate/action_plugins/logrotate.py action_plugins/logrotate.py
+
 `files/logrotate.py` enables to create a task like this.
 
     - name: Rotate logstash.log
@@ -26,10 +33,10 @@ logrotate module
         name: logstash
         files:
           - /var/log/logstash.log
+        delaycompress: yes
+        compress: yes
         state: present
-        config_dir: /usr/local/etc/logrotate.d
-
-copy the file to `$PROJECT\_ROOT/library/`.
+        frequency: daily
 
 Dependencies
 ------------

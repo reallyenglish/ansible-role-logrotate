@@ -9,6 +9,8 @@ provisioner:
   require_ruby_for_busser: false
   ansible_verbosity: 3
   ansible_verbose: true
+  extra_vars:
+    ansible_python_interpreter: '/usr/local/bin/python'
 
 platforms:
   - name: freebsd-10.3-amd64

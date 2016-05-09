@@ -33,3 +33,11 @@ end
 describe command("#{logrotate_bin} #{logrotate_conf}") do
   its(:exit_status) { should eq 0 }
 end
+
+describe file("#{logrotate_d}/logstash") do
+  its(:content) { should match Regexp.quote('/var/log/logstash.log') }
+  its(:content) { should match /compress/ }
+  its(:content) { should match /delaycompress/ }
+  its(:content) { should match /daily/ }
+  its(:content) { should match /rotate 30/ }
+end
