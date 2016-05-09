@@ -40,4 +40,5 @@ describe file("#{logrotate_d}/logstash") do
   its(:content) { should match /delaycompress/ }
   its(:content) { should match /daily/ }
   its(:content) { should match /rotate 30/ }
+  its(:content) { should match /copytruncate/ }
 end

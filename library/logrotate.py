@@ -74,6 +74,12 @@ options:
     required: false
     choices: [ "yes", "no" ]
     default: true
+  copytruncate:
+    description:
+      - Truncate  the original log file to zero size in place after creating a copy, instead of moving the old log file and optionally creating a new one.
+    required: false
+    choices: [ "yes", "no" ]
+    default: false
   missingok:
     description:
       - proceed without a warning if the file to rotate is missing
@@ -148,6 +154,8 @@ def generate_config(module):
         options += [ 'missingok' ]
     if module.params.get('notifempty'):
         options += [ 'notifempty' ]
+    if module.params.get('copytruncate'):
+        options += [ 'copytruncate' ]
 
     options += [ '%s' % module.params.get('frequency') ]
     options += [ 'rotate %s' % module.params.get('rotate') ]
@@ -206,6 +214,7 @@ def main():
         frequency       = dict(required=False, default='daily', choices=['daily', 'weekly', 'yearly']),
         rotate          = dict(required=False, default=30, type='int'),
         compress        = dict(required=False, default='yes', type='bool'),
+        copytruncate    = dict(required=False, default='no', type='bool'),
         delaycompress   = dict(required=False, default='yes', type='bool'),
         missingok       = dict(required=False, default='yes', type='bool'),
         sharedscripts   = dict(required=False, default='yes', type='bool'),

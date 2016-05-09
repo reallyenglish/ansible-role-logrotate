@@ -11,4 +11,5 @@
         compress: yes
         state: present
         frequency: daily
+        copytruncate: yes
   vars:
