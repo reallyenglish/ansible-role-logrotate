@@ -1,0 +1,6 @@
+---
+
+- name: Ensure logrotate is installed
+  yum:
+    name: logrotate
+    state: present

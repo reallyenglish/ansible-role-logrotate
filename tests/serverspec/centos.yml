@@ -1,0 +1,54 @@
+- hosts: localhost
+  roles:
+    - ansible-role-logrotate
+  post_tasks:
+
+    - name: Roate wtmp
+      logrotate:
+        name: wtmp
+        files:
+          - /var/log/wtmp
+        frequency: monthly
+        create: 0664 root utmp
+        rotate: 1
+        minsize: 1M
+        state: present
+
+    - name: Rotate btmp
+      logrotate:
+        name: btmp
+        files:
+          - /var/log/btmp
+        missingok: yes
+        frequency: monthly
+        create: 0660 root utmp
+        rotate: 1
+        state: present
+
+    - name: Rotate syslog
+      logrotate:
+        name: syslog
+        files:
+          - /var/log/cron
+          - /var/log/maillog
+          - /var/log/messages
+          - /var/log/secure
+          - /var/log/spooler
+        missingok: yes
+        sharedscripts: yes
+        postrotate:
+          - "/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true"
+        state: present
+
+    - name: Rotate yum
+      logrotate:
+        name: yum
+        files:
+          - /var/log/yum.log
+        missingok: yes
+        notifempty: yes
+        size: 30k
+        frequency: yearly
+        create: 0600 root root
+        state: present
+  vars:
