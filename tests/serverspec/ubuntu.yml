@@ -52,7 +52,7 @@
         delaycompress: yes
         missingok: yes
         notifempty: yes
-        create: 644 root root # XXX support this
+        create: 644 root root
         su: root syslog
         state: present
 
@@ -123,7 +123,7 @@
         rotate: 7
         compress: yes
         notifempty: yes
-        nocreate: yes # XXX support this
+        nocreate: yes
         state: present
 
   vars:
