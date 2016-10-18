@@ -50,7 +50,7 @@ options:
     description:
       - rotate frequency
     required: false
-    choices: [ "daily", "weekly", "yearly" ]
+    choices: [ "daily", "weekly", "monthly", "yearly" ]
     default: "daily
   rotate:
     description:
@@ -108,6 +108,21 @@ options:
       - base directory of config files
     required: false
     default: /etc/logrotate.d
+  create:
+    description:
+      - Immediately after rotation (before the postrotate script is run) the log file is created
+    required: false
+    default: False
+  nocreate:
+    description:
+      - disable 'create' option
+    required: false
+    default: False
+  su:
+    description:
+      - Rotate log files  set under this user and group instead of using default user/group
+    required: false
+    defalt: False
 
 requirements: [ ]
 author: "Tomoyuki Sakurai <tomoyukis@reallyenglish.com>" 
@@ -156,6 +171,12 @@ def generate_config(module):
         options += [ 'notifempty' ]
     if module.params.get('copytruncate'):
         options += [ 'copytruncate' ]
+    if module.params.get('create'):
+        options += [ 'create %s' % module.params.get('create') ]
+    if module.params.get('nocreate'):
+        options += [ 'nocreate' ]
+    if module.params.get('su'):
+        options += [ 'su %s' % module.params.get('su') ]
 
     options += [ '%s' % module.params.get('frequency') ]
     options += [ 'rotate %s' % module.params.get('rotate') ]
@@ -211,7 +232,7 @@ def main():
         name            = dict(required=True),
         files           = dict(required=True, type='list'),
         state           = dict(required=True, choices=['present', 'absent']),
-        frequency       = dict(required=False, default='daily', choices=['daily', 'weekly', 'yearly']),
+        frequency       = dict(required=False, default='daily', choices=['daily', 'weekly', 'monthly', 'yearly']),
         rotate          = dict(required=False, default=30, type='int'),
         compress        = dict(required=False, default='yes', type='bool'),
         copytruncate    = dict(required=False, default='no', type='bool'),
@@ -220,7 +241,10 @@ def main():
         sharedscripts   = dict(required=False, default='yes', type='bool'),
         notifempty      = dict(required=False, default='no', type='bool'),
         postrotate      = dict(required=False, type='list'),
-        config_dir      = dict(required=False, default='/etc/logrotate.d')
+        config_dir      = dict(required=False, default='/etc/logrotate.d'),
+        create          = dict(required=False),
+        nocreate        = dict(required=False, type='bool'),
+        su              = dict(required=False)
     )
 
     module = AnsibleModule(argument_spec=arg_spec, supports_check_mode=False)

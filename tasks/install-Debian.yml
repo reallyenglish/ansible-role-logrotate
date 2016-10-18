@@ -1,6 +1,6 @@
 ---
 
 - name: Ensure logrotate is installed
-  pkgng:
+  apt:
     name: logrotate
     state: present
