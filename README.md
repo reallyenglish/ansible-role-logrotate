@@ -54,12 +54,139 @@ None
 
 # Example Playbook
 
-```yaml
-- hosts: all
-  roles:
-     - ansible-role-logrotate
-```
+The following `yaml` creates configurations for default ubuntu.
 
+```yaml
+- hosts: localhost
+  roles:
+    - ansible-role-logrotate
+  post_tasks:
+
+    - name: Roate wtmp
+      logrotate:
+        name: wtmp
+        files:
+          - /var/log/wtmp
+        frequency: monthly
+        missingok: yes
+        create: 0664 root utmp
+        rotate: 1
+        su: root syslog
+        state: present
+
+    - name: Rotate btmp
+      logrotate:
+        name: btmp
+        files:
+          - /var/log/btmp
+        missingok: yes
+        frequency: monthly
+        create: 0660 root utmp
+        rotate: 1
+        su: root syslog
+        state: present
+
+    - name: Rotate apt
+      logrotate:
+        name: apt
+        files:
+          - /var/log/apt/term.log
+          - /var/log/apt/history.log
+        rotate: 12
+        frequency: monthly
+        compress: yes
+        missingok: yes
+        notifempty: yes
+        state: present
+
+    - name: Rotate dpkg
+      logrotate: 
+        name: dpkg
+        files:
+          - /var/log/dpkg.log
+          - /var/log/alternatives.log
+        frequency: monthly
+        rotate: 12
+        compress: yes
+        delaycompress: yes
+        missingok: yes
+        notifempty: yes
+        create: 644 root root
+        su: root syslog
+        state: present
+
+    - name: Create rsyslog
+      logrotate:
+        name: rsyslog
+        files:
+          - /var/log/syslog
+        rotate: 7
+        frequency: daily
+        missingok: yes
+        notifempty: yes
+        delaycompress: yes
+        compress: yes
+        su: root syslog
+        sharedscripts: no
+        postrotate:
+          - "reload rsyslog >/dev/null 2>&1 || true"
+        state: present
+    - name: Rotate other rsyslog logs
+      logrotate:
+        name: rsyslog_others
+        files:
+          - /var/log/mail.info
+          - /var/log/mail.warn
+          - /var/log/mail.err
+          - /var/log/mail.log
+          - /var/log/daemon.log
+          - /var/log/kern.log
+          - /var/log/auth.log
+          - /var/log/user.log
+          - /var/log/lpr.log
+          - /var/log/cron.log
+          - /var/log/debug
+          - /var/log/messages
+        rotate: 4
+        frequency: weekly
+        missingok: yes
+        notifempty: yes
+        compress: yes
+        delaycompress: yes
+        su: root syslog
+        sharedscripts: yes
+        postrotate:
+          - "reload rsyslog >/dev/null 2>&1 || true"
+        state: present
+
+    - name: Rotate unattended-upgrades-shutdown.log
+      logrotate:
+        name: unattended-upgrades
+        files:
+          - /var/log/unattended-upgrades/unattended-upgrades.log
+          - /var/log/unattended-upgrades/unattended-upgrades-shutdown.log
+        rotate: 6
+        frequency: monthly
+        compress: yes
+        missingok: yes
+        notifempty: yes
+        state: present
+
+    - name: Rotate upstart
+      logrotate:
+        name: upstart
+        files:
+          - /var/log/upstart/*.log
+        frequency: daily
+        missingok: yes
+        rotate: 7
+        compress: yes
+        notifempty: yes
+        nocreate: yes
+        state: present
+
+  vars:
+```
 # License
 
 BSD
