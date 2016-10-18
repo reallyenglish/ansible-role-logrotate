@@ -12,6 +12,8 @@
         missingok: yes
         create: 0664 root utmp
         rotate: 1
+        su: root syslog
+        state: present
 
     - name: Rotate btmp
       logrotate:
@@ -22,6 +24,8 @@
         frequency: monthly
         create: 0660 root utmp
         rotate: 1
+        su: root syslog
+        state: present
 
     - name: Rotate apt
       logrotate:
@@ -49,6 +53,8 @@
         missingok: yes
         notifempty: yes
         create: 644 root root # XXX support this
+        su: root syslog
+        state: present
 
     - name: Create rsyslog
       logrotate:
@@ -61,8 +67,11 @@
         notifempty: yes
         delaycompress: yes
         compress: yes
+        su: root syslog
+        sharedscripts: no
         postrotate:
           - "reload rsyslog >/dev/null 2>&1 || true"
+        state: present
     - name: Rotate other rsyslog logs
       logrotate:
         name: rsyslog_others
@@ -85,9 +94,11 @@
         notifempty: yes
         compress: yes
         delaycompress: yes
+        su: root syslog
         sharedscripts: yes
         postrotate:
           - "reload rsyslog >/dev/null 2>&1 || true"
+        state: present
 
     - name: Rotate unattended-upgrades-shutdown.log
       logrotate:
@@ -100,6 +111,7 @@
         compress: yes
         missingok: yes
         notifempty: yes
+        state: present
 
     - name: Rotate upstart
       logrotate:
@@ -112,5 +124,6 @@
         compress: yes
         notifempty: yes
         nocreate: yes # XXX support this
+        state: present
 
   vars:

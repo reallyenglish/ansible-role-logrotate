@@ -56,28 +56,45 @@ when 'ubuntu'
 /var/log/apt/term.log
 /var/log/apt/history.log
 {
-  rotate 12
-  monthly
   compress
+  delaycompress
   missingok
   notifempty
+  monthly
+  rotate 12
 }
 __EOR__
                                               )}
   end
 
+  describe file("#{ logrotate_d }/btmp") do
+    its(:content) { should match Regexp.escape(<<__EOR__
+/var/log/btmp
+{
+  compress
+  delaycompress
+  missingok
+  create 0660 root utmp
+  su root syslog
+  monthly
+  rotate 1
+}
+__EOR__
+                                              )}
+  end
   describe file("#{ logrotate_d }/dpkg") do
     its(:content) { should match Regexp.escape(<<__EOR__
-/var/log/alternatives.log
 /var/log/dpkg.log
+/var/log/alternatives.log
 {
-    monthly
-    rotate 12
-    compress
-    delaycompress
-    missingok
-    notifempty
-    create 644 root root
+  compress
+  delaycompress
+  missingok
+  notifempty
+  create 644 root root
+  su root syslog
+  monthly
+  rotate 12
 }
 __EOR__
                                               )}
@@ -87,15 +104,16 @@ __EOR__
     its(:content) { should match Regexp.escape(<<__EOR__
 /var/log/syslog
 {
-    rotate 7
-    daily
-    missingok
-    notifempty
-    delaycompress
-    compress
-    postrotate
-        reload rsyslog >/dev/null 2>&1 || true
-    endscript
+  compress
+  delaycompress
+  missingok
+  notifempty
+  su root syslog
+  daily
+  rotate 7
+  postrotate
+    reload rsyslog >/dev/null 2>&1 || true
+  endscript
 }
 __EOR__
                                               )}
@@ -116,43 +134,47 @@ __EOR__
 /var/log/debug
 /var/log/messages
 {
-    rotate 4
-    weekly
-    missingok
-    notifempty
-    compress
-    delaycompress
-    sharedscripts
-    postrotate
-        reload rsyslog >/dev/null 2>&1 || true
-    endscript
+  compress
+  delaycompress
+  missingok
+  notifempty
+  su root syslog
+  weekly
+  rotate 4
+  sharedscripts
+  postrotate
+    reload rsyslog >/dev/null 2>&1 || true
+  endscript
 }
 __EOR__
                                               )}
   end
   describe file("#{ logrotate_d }/unattended-upgrades") do
     its(:content) { should match Regexp.escape(<<__EOR__
-/var/log/unattended-upgrades/unattended-upgrades.log 
+/var/log/unattended-upgrades/unattended-upgrades.log
 /var/log/unattended-upgrades/unattended-upgrades-shutdown.log
 {
-  rotate 6
-  monthly
   compress
+  delaycompress
   missingok
   notifempty
+  monthly
+  rotate 6
 }
 __EOR__
                                               )}
   end
   describe file("#{ logrotate_d }/upstart") do
     its(:content) { should match Regexp.escape(<<__EOR__
-/var/log/upstart/*.log {
-        daily
-        missingok
-        rotate 7
-        compress
-        notifempty
-    nocreate
+/var/log/upstart/*.log
+{
+  compress
+  delaycompress
+  missingok
+  notifempty
+  nocreate
+  daily
+  rotate 7
 }
 __EOR__
                                               )}
