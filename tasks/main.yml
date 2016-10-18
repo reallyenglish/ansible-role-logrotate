@@ -1,18 +1,20 @@
 ---
 # tasks file for ansible-role-logrotate
 
-- include_vars: FreeBSD.yml
-  when: ansible_os_family == 'FreeBSD'
+- include_vars: "{{ ansible_os_family }}.yml"
 
-- include: install-FreeBSD.yml
-  when: ansible_os_family == 'FreeBSD'
+- include: "install-{{ ansible_os_family }}.yml"
 
+- name: Create logrotate.d
+  file:
+    path: "{{ logrotate_conf_d }}"
+    mode: 0755
+    state: directory
 
 - name: Create logrotate.conf
   template:
     src: logrotate.conf.j2
     dest: "{{ logrotate_config }}"
-  when: ansible_os_family == 'FreeBSD'
 
 - name: Create PATH that includes /usr/local
   cron:
