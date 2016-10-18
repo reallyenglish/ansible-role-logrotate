@@ -8,19 +8,21 @@ None
 
 # Role Variables
 
-|Variable|Description|Default|
-|--------|-----------|-------|
-| logrotate\_config  | path to logrotate.conf | see vars |
-| logrotate\_conf\_d | path to logrotate.d    | see vars |
-
 | Variable | Description | Default |
 |----------|-------------|---------|
 | logrotate\_config | path to `logrotate.conf` | {{ \_\_logrotate\_config }} |
 | logrotate\_conf\_d | path to `logrotate.d` | {{ \_\_logrotate\_conf\_d }} |
-| logrotate\_default\_rotate | TBW | 30 |
-| logrotate\_default\_dateext | TBW | true |
-| logrotate\_default\_dateformat | TBW | .%Y%m%d |
-| logrotate\_default\_freq | TBW | daily |
+| logrotate\_default\_rotate | the default value of `rotate` in `logrotate.conf` | 30 |
+| logrotate\_default\_dateext | the default value of `dateext` in `logrotate.conf` | true |
+| logrotate\_default\_dateformat | the default value of `dateformat` in `logrotate.conf` | .%Y%m%d |
+| logrotate\_default\_freq | the default value of how often rotate the logs in `logrotate.conf` | daily |
+
+## Debian
+
+| Variable | Default |
+|----------|---------|
+| \_\_logrotate\_config | /etc/logrotate.conf |
+| \_\_logrotate\_conf\_d | /etc/logrotate.d |
 
 ## FreeBSD
 
@@ -28,6 +30,13 @@ None
 |----------|---------|
 | \_\_logrotate\_config | /usr/local/etc/logrotate.conf |
 | \_\_logrotate\_conf\_d | /usr/local/etc/logrotate.d |
+
+## RedHat
+
+| Variable | Default |
+|----------|---------|
+| \_\_logrotate\_config | /etc/logrotate.conf |
+| \_\_logrotate\_conf\_d | /etc/logrotate.d |
 
 
 Created by [yaml2readme.rb](https://gist.github.com/trombik/b2df709657c08d845b1d3b3916e592d3)
