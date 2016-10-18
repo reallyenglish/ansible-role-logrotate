@@ -1,0 +1,3 @@
+---
+__logrotate_config: /etc/logrotate.conf
+__logrotate_conf_d: /etc/logrotate.d

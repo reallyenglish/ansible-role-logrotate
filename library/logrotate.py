@@ -122,7 +122,22 @@ options:
     description:
       - Rotate log files  set under this user and group instead of using default user/group
     required: false
-    defalt: False
+    default: False
+  maxsize:
+    description:
+      - Log  files  are rotated when they grow bigger than size bytes even before the additionally specified time interval
+    required: false
+    default: False
+  minsize:
+    description:
+      - Log files are rotated when they grow bigger than size bytes, but not before  the  additionally  specified  time  interval
+    required: false
+    default: False
+  size:
+    description:
+      - Log files are rotated only if they grow bigger then size bytes
+    required: false
+    default: False
 
 requirements: [ ]
 author: "Tomoyuki Sakurai <tomoyukis@reallyenglish.com>" 
@@ -177,6 +192,12 @@ def generate_config(module):
         options += [ 'nocreate' ]
     if module.params.get('su'):
         options += [ 'su %s' % module.params.get('su') ]
+    if module.params.get('maxsize'):
+        options += [ 'maxsize %s' % module.params.get('maxsize') ]
+    if module.params.get('minsize'):
+        options += [ 'minsize %s' % module.params.get('minsize') ]
+    if module.params.get('size'):
+        options += [ 'size %s' % module.params.get('size') ]
 
     options += [ '%s' % module.params.get('frequency') ]
     options += [ 'rotate %s' % module.params.get('rotate') ]
@@ -244,7 +265,10 @@ def main():
         config_dir      = dict(required=False, default='/etc/logrotate.d'),
         create          = dict(required=False),
         nocreate        = dict(required=False, type='bool'),
-        su              = dict(required=False)
+        su              = dict(required=False),
+        maxsize         = dict(required=False),
+        minsize         = dict(required=False),
+        size            = dict(required=False)
     )
 
     module = AnsibleModule(argument_spec=arg_spec, supports_check_mode=False)

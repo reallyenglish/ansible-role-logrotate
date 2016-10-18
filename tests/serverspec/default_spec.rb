@@ -10,7 +10,6 @@ when 'freebsd'
   logrotate_d = '/usr/local/etc/logrotate.d'
   logrotate_conf = '/usr/local/etc/logrotate.conf'
   logrotate_bin = '/usr/local/sbin/logrotate'
-when 'ubuntu'
 end
 
 case os[:family]
@@ -18,7 +17,6 @@ when 'freebsd'
   describe cron do
     it { should have_entry '0 * * * * /usr/bin/env PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin logrotate /usr/local/etc/logrotate.conf >/dev/null' }
   end
-when 'ubuntu'
 end
 
 describe file(logrotate_d) do
@@ -42,6 +40,7 @@ end
 
 case os[:family]
 when 'freebsd'
+
   describe file("#{logrotate_d}/logstash") do
     its(:content) { should match Regexp.quote('/var/log/logstash.log') }
     its(:content) { should match /compress/ }
@@ -50,6 +49,48 @@ when 'freebsd'
     its(:content) { should match /rotate 30/ }
     its(:content) { should match /copytruncate/ }
   end
+
+when 'redhat'
+
+  describe file("#{ logrotate_d }/syslog") do
+    its(:content) { should match Regexp.escape(<<__EOR__
+/var/log/cron
+/var/log/maillog
+/var/log/messages
+/var/log/secure
+/var/log/spooler
+{
+  compress
+  delaycompress
+  missingok
+  daily
+  rotate 30
+  sharedscripts
+  postrotate
+    /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+  endscript
+}
+__EOR__
+                                              )}
+  end
+
+  describe file("#{ logrotate_d }/yum") do
+    its(:content) { should match Regexp.escape(<<__EOR__
+/var/log/yum.log
+{
+  compress
+  delaycompress
+  missingok
+  notifempty
+  create 0600 root root
+  size 30k
+  yearly
+  rotate 30
+}
+__EOR__
+                                              )}
+  end
+
 when 'ubuntu'
   describe file("#{ logrotate_d }/apt") do
     its(:content) { should match Regexp.escape(<<__EOR__
