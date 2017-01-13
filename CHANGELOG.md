@@ -1,3 +1,7 @@
-# Release 1.0.0
+## Release 1.0.1
 
-* Initail release
+* QA only, no functionality changes
+
+## Release 1.0.0
+
+* Initial release
