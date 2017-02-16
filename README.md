@@ -16,30 +16,31 @@ None
 | logrotate\_default\_dateext | the default value of `dateext` in `logrotate.conf` | true |
 | logrotate\_default\_dateformat | the default value of `dateformat` in `logrotate.conf` | .%Y%m%d |
 | logrotate\_default\_freq | the default value of how often rotate the logs in `logrotate.conf` | daily |
+| `logrotate_default_su` | the default value of `su` in `logrotate.conf` | `{{ __logrotate_default_su }}` |
 
 ## Debian
 
 | Variable | Default |
 |----------|---------|
-| \_\_logrotate\_config | /etc/logrotate.conf |
-| \_\_logrotate\_conf\_d | /etc/logrotate.d |
+| `__logrotate_config` | `/etc/logrotate.conf` |
+| `__logrotate_conf_d` | `/etc/logrotate.d` |
+| `__logrotate_default_su` | `root syslog` |
 
 ## FreeBSD
 
 | Variable | Default |
 |----------|---------|
-| \_\_logrotate\_config | /usr/local/etc/logrotate.conf |
-| \_\_logrotate\_conf\_d | /usr/local/etc/logrotate.d |
+| `__logrotate_config` | `/usr/local/etc/logrotate.conf` |
+| `__logrotate_conf_d` | `/usr/local/etc/logrotate.d` |
+| `__logrotate_default_su` | `root wheel` |
 
 ## RedHat
 
 | Variable | Default |
 |----------|---------|
-| \_\_logrotate\_config | /etc/logrotate.conf |
-| \_\_logrotate\_conf\_d | /etc/logrotate.d |
-
-
-Created by [yaml2readme.rb](https://gist.github.com/trombik/b2df709657c08d845b1d3b3916e592d3)
+| `__logrotate_config` | `/etc/logrotate.conf` |
+| `__logrotate_conf_d` | `/etc/logrotate.d` |
+| `__logrotate_default_su` | `root root` |
 
 # logrotate module
 
@@ -198,7 +199,21 @@ The following `yaml` creates configurations for default ubuntu.
 ```
 # License
 
-BSD
+```
+Copyright (c) 2016 Tomoyuki Sakurai <tomoyukis@reallyenglish.com>
+
+Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+```
 
 # Author Information
 

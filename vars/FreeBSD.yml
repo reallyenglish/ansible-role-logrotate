@@ -1,3 +1,4 @@
 ---
 __logrotate_config: /usr/local/etc/logrotate.conf
 __logrotate_conf_d: /usr/local/etc/logrotate.d
+__logrotate_default_su: root wheel

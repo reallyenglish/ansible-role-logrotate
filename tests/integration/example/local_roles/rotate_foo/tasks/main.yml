@@ -1,0 +1,9 @@
+- name: Rotate /var/log/foo.log
+  logrotate:
+    name: foo
+    files:
+      - /var/log/foo.log
+    delaycompress: yes
+    compress: yes
+    state: present
+    frequency: daily

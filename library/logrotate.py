@@ -160,10 +160,31 @@ def validate_config(module):
     fh.close()
 
     LOGROTATE = module.get_bin_path('logrotate', True)
-    rc, out, err = module.run_command('%s -d %s' % (LOGROTATE, temppath), check_rc=True)
+
+    # read not only the file to validate but the default configuration because
+    # some defaults are needed to validate, notably `su` directive
+    default_config_path = get_default_config_path(module)
+    rc, out, err = module.run_command('%s -d %s %s' % (LOGROTATE, default_config_path, temppath), check_rc=True)
     os.unlink(temppath)
     if rc != 0:
         module.fail_json(msg='failed to validate config for: %s' % (name), stdout=out, stderr=err)
+
+def get_default_config_path(module):
+    """Look for the default configuration and return the first one found"""
+    locations = [
+        # Linux
+        '/etc/logrotate.conf',
+        # FreeBSD
+        '/usr/local/etc/logrotate.conf'
+        ]
+    found = ''
+    for path in locations:
+        if os.path.exists(path):
+            found = path
+            break
+    if not found:
+        module.fail_json(msg='cannot find logrotate.conf in default locations')
+    return found
 
 def get_config_path(module):
     return os.path.join(module.params.get('config_dir'), module.params.get('name'))

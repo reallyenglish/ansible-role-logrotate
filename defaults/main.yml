@@ -8,3 +8,4 @@ logrotate_default_rotate: 30
 logrotate_default_dateext: "true"
 logrotate_default_dateformat: ".%Y%m%d"
 logrotate_default_freq: "daily"
+logrotate_default_su: "{{ __logrotate_default_su }}"

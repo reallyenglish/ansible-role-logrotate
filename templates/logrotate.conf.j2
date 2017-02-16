@@ -1,6 +1,7 @@
 create
 compress
 delaycompress
+su {{ logrotate_default_su }}
 rotate {{ logrotate_default_rotate }}
 {{ logrotate_default_freq }}
 {% if logrotate_default_dateext == "true" -%}

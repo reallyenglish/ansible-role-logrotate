@@ -1,3 +1,4 @@
 ---
 __logrotate_config: /etc/logrotate.conf
 __logrotate_conf_d: /etc/logrotate.d
+__logrotate_default_su: root root

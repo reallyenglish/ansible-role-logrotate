@@ -4,12 +4,16 @@ require 'serverspec'
 logrotate_d = '/etc/logrotate.d'
 logrotate_conf = '/etc/logrotate.conf'
 logrotate_bin = '/usr/sbin/logrotate'
+su = "root syslog"
 
 case os[:family]
 when 'freebsd'
   logrotate_d = '/usr/local/etc/logrotate.d'
   logrotate_conf = '/usr/local/etc/logrotate.conf'
   logrotate_bin = '/usr/local/sbin/logrotate'
+  su = "root wheel"
+when "redhat"
+  su = "root root"
 end
 
 case os[:family]
@@ -27,6 +31,7 @@ end
 describe file(logrotate_conf) do
   it { should exist }
   it { should be_file }
+  its(:content) { should match /^su #{ su }$/ }
   its(:content) { should match /rotate 30/ }
   its(:content) { should match /^daily$/ }
   its(:content) { should match /^dateext/ }
