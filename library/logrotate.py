@@ -68,6 +68,21 @@ options:
     required: false
     choices: [ "yes", "no" ]
     default: true
+  compresscmd:
+    description:
+      - command to use to compress log files
+    required: false
+    default: False
+  uncompresscmd:
+    description:
+      - command to use to uncompress log files
+    required: false
+    default: False
+  compressext
+    description:
+      - extension to use on compressed logfiles, if compression is enabled
+    required: false
+    default: False
   delaycompress:
     description:
       - delay compress
@@ -199,6 +214,12 @@ def generate_config(module):
     options = []
     if module.params.get('compress'):
         options += [ 'compress' ]
+    if module.params.get('compresscmd'):
+        options += [ 'compresscmd %s' % module.params.get('compresscmd') ]
+    if module.params.get('uncompresscmd'):
+        options += [ 'uncompresscmd %s' % module.params.get('uncompresscmd') ]
+    if module.params.get('compressext'):
+        options += [ 'compressext %s' % module.params.get('compressext') ]
     if module.params.get('delaycompress'):
         options += [ 'delaycompress' ]
     if module.params.get('missingok'):
@@ -277,6 +298,9 @@ def main():
         frequency       = dict(required=False, default='daily', choices=['daily', 'weekly', 'monthly', 'yearly']),
         rotate          = dict(required=False, default=30, type='int'),
         compress        = dict(required=False, default='yes', type='bool'),
+        compresscmd     = dict(required=False),
+        uncompresscmd   = dict(required=False),
+        compressext     = dict(required=False),
         copytruncate    = dict(required=False, default='no', type='bool'),
         delaycompress   = dict(required=False, default='yes', type='bool'),
         missingok       = dict(required=False, default='yes', type='bool'),

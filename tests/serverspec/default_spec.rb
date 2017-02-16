@@ -226,3 +226,17 @@ __EOR__
                                               )}
   end
 end
+
+describe file("#{ logrotate_d }/compress") do
+  it { should be_file }
+  its(:content) { should match /^#{ Regexp.escape("/var/log/compress.log") }$/ }
+  its(:content) { should match /compress$/ }
+  its(:content) { should match /delaycompress$/ }
+  its(:content) { should match /missingok$/ }
+  its(:content) { should match /copytruncate$/ }
+  its(:content) { should match /daily$/ }
+  its(:content) { should match /rotate 30$/ }
+  its(:content) { should match /compresscmd (?:\/usr)?\/bin\/bzip2/ }
+  its(:content) { should match /uncompresscmd (?:\/usr)?\/bin\/bunzip2/ }
+  its(:content) { should match /compressext \.bz2$/ }
+end

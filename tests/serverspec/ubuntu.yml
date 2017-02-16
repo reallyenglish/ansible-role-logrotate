@@ -126,4 +126,17 @@
         nocreate: yes
         state: present
 
+    - name: Rotate compress.log
+      logrotate:
+        name: compress
+        files:
+          - /var/log/compress.log
+        delaycompress: yes
+        compress: yes
+        state: present
+        frequency: daily
+        copytruncate: yes
+        compresscmd: "{% if ansible_os_family == 'FreeBSD' %}/usr/bin/{% else %}/bin/{% endif %}bzip2"
+        uncompresscmd: "{% if ansible_os_family == 'FreeBSD' %}/usr/bin/{% else %}/bin/{% endif %}bunzip2"
+        compressext: .bz2
   vars:

@@ -61,10 +61,10 @@ shared_examples_for :server do |s|
     expect(result).to match(/2nd log entry/)
   end
 
-  it "creates #{ log_file }.2.gz" do
-    result = current_server.ssh_exec("ls #{ log_file }.2.gz")
-    expect(result).to match(/#{ log_file_regexp }\.2\.gz/)
-    result = current_server.ssh_exec("zcat #{ log_file }.2.gz")
+  it "creates #{ log_file }.2.bz2" do
+    result = current_server.ssh_exec("ls #{ log_file }.2.bz2")
+    expect(result).to match(/#{ log_file_regexp }\.2\.bz2/)
+    result = current_server.ssh_exec("bzcat #{ log_file }.2.bz2")
     expect(result).to match(/1st log entry/)
   end
 end

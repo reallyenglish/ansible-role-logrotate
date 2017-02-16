@@ -7,3 +7,6 @@
     compress: yes
     state: present
     frequency: daily
+    compresscmd: "{% if ansible_os_family == 'FreeBSD' %}/usr/bin/{% else %}/bin/{% endif %}bzip2"
+    uncompresscmd: "{% if ansible_os_family == 'FreeBSD' %}/usr/bin/{% else %}/bin/{% endif %}bunzip2"
+    compressext: .bz2
