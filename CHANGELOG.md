@@ -1,3 +1,7 @@
+## Release 1.1.1
+
+* 1d51fda [bugfix] QA (#23)
+
 ## Release 1.1.0
 
 * 0d69c0a support compresscmd and its relatives (#19)
