@@ -1,10 +1,10 @@
-require 'infrataster/rspec'
-require 'capybara'
+require "infrataster/rspec"
+require "capybara"
 
-ENV['VAGRANT_CWD'] = File.dirname(__FILE__)
-ENV['LANG'] = 'C'
+ENV["VAGRANT_CWD"] = File.dirname(__FILE__)
+ENV["LANG"] = "C"
 
-if ENV['JENKINS_HOME']
+if ENV["JENKINS_HOME"]
   # XXX "bundle exec vagrant" fails to load.
   # https://github.com/bundler/bundler/issues/4602
   #
@@ -21,24 +21,24 @@ if ENV['JENKINS_HOME']
   # include the path of bin to vagrant
   vagrant_real_path = `pkg info -l vagrant | grep -v '/usr/local/bin/vagrant' | grep -E 'bin\/vagrant$'| sed -e 's/^[[:space:]]*//'`
   vagrant_bin_dir = File.dirname(vagrant_real_path)
-  ENV['PATH'] = "#{vagrant_bin_dir}:#{ENV['PATH']}"
+  ENV["PATH"] = "#{vagrant_bin_dir}:#{ENV['PATH']}"
 end
 
 Infrataster::Server.define(
   :server0,
-  '192.168.21.200',
+  "192.168.21.200",
   vagrant: true
 )
 
 Infrataster::Server.define(
   :server1,
-  '192.168.21.201',
+  "192.168.21.201",
   vagrant: true
 )
 
 Infrataster::Server.define(
   :server2,
-  '192.168.21.202',
+  "192.168.21.202",
   vagrant: true
 )
 

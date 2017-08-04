@@ -20,7 +20,6 @@ galaxy_info:
       - 7
 
   galaxy_tags:
-    - system
-    - log
+    - logrotate
 dependencies:
 #  - { role: username.common, some_parameter: 3 }

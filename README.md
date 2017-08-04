@@ -10,13 +10,13 @@ None
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| logrotate\_config | path to `logrotate.conf` | {{ \_\_logrotate\_config }} |
-| logrotate\_conf\_d | path to `logrotate.d` | {{ \_\_logrotate\_conf\_d }} |
-| logrotate\_default\_rotate | the default value of `rotate` in `logrotate.conf` | 30 |
-| logrotate\_default\_dateext | the default value of `dateext` in `logrotate.conf` | true |
-| logrotate\_default\_dateformat | the default value of `dateformat` in `logrotate.conf` | .%Y%m%d |
-| logrotate\_default\_freq | the default value of how often rotate the logs in `logrotate.conf` | daily |
-| `logrotate_default_su` | the default value of `su` in `logrotate.conf` | `{{ __logrotate_default_su }}` |
+| `logrotate_config` | path to `logrotate.conf` | `{{ __logrotate_config }}` |
+| `logrotate_conf_d` | path to `logrotate.d` | `{{ __logrotate_conf_d }}` |
+| `logrotate_default_rotate` | default value of `rotate` in `logrotate.conf` | `30` |
+| `logrotate_default_dateext` | default value of `dateformat` in `logrotate.conf` | `true` |
+| `logrotate_default_dateformat` | default value of `dateformat` in `logrotate.conf` | `.%Y%m%d` |
+| `logrotate_default_freq` | default value of how often rotate the logs in `logrotate.conf` | `daily` |
+| `logrotate_default_su` | default value of `su` in `logrotate.conf` | `{{ __logrotate_default_su }}` |
 
 ## Debian
 
@@ -42,7 +42,7 @@ None
 | `__logrotate_conf_d` | `/etc/logrotate.d` |
 | `__logrotate_default_su` | `root root` |
 
-# logrotate module
+## `logrotate module`
 
 `action_plugins/logrotate.py` enables to create a task like this.
 

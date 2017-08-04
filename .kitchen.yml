@@ -37,7 +37,7 @@ platforms:
       box: trombik/ansible-ubuntu-14.04-amd64
       box_check_update: false
 
-  - name: centos-7.2-x86_64
+  - name: centos-7.3-x86_64
     driver:
       box: trombik/ansible-centos-7.2-x86_64
       box_check_update: false
@@ -52,7 +52,7 @@ suites:
       command: rspec -c -f d -I tests/serverspec tests/serverspec/default_spec.rb
     excludes:
       - ubuntu-14.04-amd64
-      - centos-7.2-x86_64
+      - centos-7.3-x86_64
 
   - name: ubuntu
     provisioner:
@@ -72,4 +72,4 @@ suites:
       name: shell
       command: rspec -c -f d -I tests/serverspec tests/serverspec/default_spec.rb
     includes:
-      - centos-7.2-x86_64
+      - centos-7.3-x86_64
