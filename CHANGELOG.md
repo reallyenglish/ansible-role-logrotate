@@ -1,3 +1,7 @@
+## Release 1.1.2
+
+* 498b527 [bugfix] QA (#25)
+
 ## Release 1.1.1
 
 * 1d51fda [bugfix] QA (#23)
