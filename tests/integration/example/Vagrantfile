@@ -49,9 +49,9 @@ Vagrant.configure("2") do |config|
   end
 
   boxen = [
-    "trombik/ansible-freebsd-10.3-amd64",
-    "trombik/ansible-ubuntu-14.04-amd64",
-    "trombik/ansible-centos-7.2-x86_64"
+    "mitsuruy/ansible-freebsd-10.3-amd64",
+    "mitsuruy/ansible-ubuntu-14.04-amd64",
+    "mitsuruy/ansible-centos-7.3-x86_64"
   ]
   boxen.each_with_index do |box_name, i|
     config.vm.define "server#{i}" do |c|
